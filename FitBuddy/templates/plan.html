@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container page-header-inner">
+        <div>
+            <span class="eyebrow">{{ plan.goal|title }} · {{ plan.duration }}</span>
+            <h1>{{ plan.title }}</h1>
+            <p>Generated {{ plan.created_at.strftime('%d %B %Y') }}</p>
+        </div>
+        <a class="button button-secondary" href="{{ url_for('fitness.history') }}">Plan history</a>
+    </div>
+</section>
+
+<section class="container plan-content">
+    <article class="plan-overview">
+        <span class="mini-label">Plan overview</span>
+        <p>{{ plan_data.summary }}</p>
+    </article>
+
+    <div class="plan-section">
+        <div class="content-heading">
+            <div>
+                <span class="eyebrow">Weekly schedule</span>
+                <h2>Your week at a glance</h2>
+            </div>
+        </div>
+        <div class="week-grid">
+            {% for day in plan_data.weekly_schedule %}
+                <article class="day-card">
+                    <div class="day-heading">
+                        <div>
+                            <span class="mini-label">{{ loop.index|string|zfill(2) }}</span>
+                            <h3>{{ day.day }}</h3>
+                        </div>
+                        <span class="day-focus">{{ day.focus }}</span>
+                    </div>
+
+                    {% if day.workouts %}
+                        {% for workout in day.workouts %}
+                            <div class="workout-block">
+                                <h4>{{ workout.name }}</h4>
+                                {% if workout.warmup %}
+                                    <div class="routine-note">
+                                        <strong>Warmup</strong>
+                                        <ul>
+                                            {% for item in workout.warmup %}<li>{{ item }}</li>{% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <div class="exercise-list">
+                                    {% for exercise in workout.exercises %}
+                                        <div class="exercise-row">
+                                            <div class="exercise-main">
+                                                <strong>{{ exercise.name }}</strong>
+                                                <span>{{ exercise.notes }}</span>
+                                            </div>
+                                            <div class="exercise-stats">
+                                                <span><b>{{ exercise.sets }}</b> sets</span>
+                                                <span><b>{{ exercise.repetitions }}</b> reps</span>
+                                                <span><b>{{ exercise.rest }}</b> rest</span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if workout.cooldown %}
+                                    <div class="routine-note cooldown">
+                                        <strong>Cooldown</strong>
+                                        <ul>
+                                            {% for item in workout.cooldown %}<li>{{ item }}</li>{% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="rest-day">Recovery day. Use gentle movement if comfortable.</p>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="plan-two-column">
+        <section class="plan-section">
+            <span class="eyebrow">Nutrition</span>
+            <h2>Practical guidance</h2>
+            <ul class="clean-list">
+                {% for item in plan_data.nutrition_guidance %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="plan-section">
+            <span class="eyebrow">Meal suggestions</span>
+            <h2>Simple ideas</h2>
+            <ul class="clean-list">
+                {% for item in plan_data.meal_suggestions %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <div class="plan-two-column">
+        <section class="plan-section">
+            <span class="eyebrow">Tips</span>
+            <h2>Keep it sustainable</h2>
+            <ul class="clean-list">
+                {% for item in plan_data.tips %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="plan-section safety-panel">
+            <span class="eyebrow">Safety information</span>
+            <h2>A sensible reminder</h2>
+            <p>{{ plan_data.safety_note }}</p>
+            <p class="disclaimer">
+                FitBuddy provides AI-generated fitness and nutrition guidance for general informational purposes.
+                It is not a substitute for professional medical or fitness advice.
+            </p>
+        </section>
+    </div>
+</section>
+{% endblock %}

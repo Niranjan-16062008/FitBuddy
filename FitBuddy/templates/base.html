@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FitBuddy creates personalized fitness and nutrition guidance using Gemini AI.">
+    <title>{{ page_title or "FitBuddy" }} · FitBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="{{ url_for('main.index') }}" aria-label="FitBuddy home">
+                <span class="brand-mark">F</span>
+                <span>FitBuddy</span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span></span><span></span><span></span>
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+
+            <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('fitness.history') }}">Plan history</a>
+                    <a href="{{ url_for('fitness.profile') }}">Profile</a>
+                    <a class="nav-cta" href="{{ url_for('fitness.create_plan') }}">Create plan</a>
+                    <form method="post" action="{{ url_for('auth.logout') }}" class="nav-logout">
+                        <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+                        <button type="submit" class="nav-link-button">Log out</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('main.index') }}#how-it-works">How it works</a>
+                    <a href="{{ url_for('auth.login') }}">Log in</a>
+                    <a class="nav-cta" href="{{ url_for('auth.register') }}">Create account</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <div class="container flash-stack" aria-live="polite">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">
+                    <span>{{ message }}</span>
+                    <button type="button" class="flash-close" aria-label="Dismiss message">×</button>
+                </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+
+    <main>
+        {% if error_page %}
+            <section class="container page-state">
+                <div class="empty-state">
+                    <span class="eyebrow">FitBuddy</span>
+                    <h1>{{ page_title }}</h1>
+                    <p>{{ error_message }}</p>
+                    <a class="button button-primary" href="{{ url_for('main.index') }}">Back to home</a>
+                </div>
+            </section>
+        {% else %}
+            {% block content %}{% endblock %}
+        {% endif %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a class="brand footer-brand" href="{{ url_for('main.index') }}">
+                    <span class="brand-mark">F</span>
+                    <span>FitBuddy</span>
+                </a>
+                <p>Thoughtful fitness planning, personalized with AI.</p>
+            </div>
+            <div class="footer-note">
+                <strong>Health information</strong>
+                <p>
+                    FitBuddy provides AI-generated fitness and nutrition guidance for general informational
+                    purposes. It is not a substitute for professional medical or fitness advice. Consult a
+                    qualified professional if you have a medical condition, injury, or other health concern.
+                </p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <span>© {{ current_year if current_year else 2026 }} FitBuddy</span>
+            <span>Built with Flask, SQLite, SQLAlchemy &amp; Gemini</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>
