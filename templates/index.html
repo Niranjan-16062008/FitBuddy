@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow">Personalized fitness planning</span>
+            <h1>Your fitness journey, intelligently planned.</h1>
+            <p class="hero-lead">
+                FitBuddy turns your goals, routine, preferences, and available equipment
+                into a practical fitness and nutrition plan using Gemini AI.
+            </p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="{{ url_for('auth.register') }}">Create My Plan</a>
+                <a class="button button-secondary" href="#how-it-works">Explore FitBuddy</a>
+            </div>
+            <p class="hero-trust">Designed for clear guidance, realistic routines, and safer everyday planning.</p>
+        </div>
+        <div class="hero-panel">
+            <div class="hero-panel-top">
+                <span class="status-dot"></span>
+                <span>Personal plan preview</span>
+            </div>
+            <div class="preview-card">
+                <span class="mini-label">This week</span>
+                <h2>Balanced strength &amp; mobility</h2>
+                <div class="preview-row">
+                    <span>Training</span><strong>4 days</strong>
+                </div>
+                <div class="preview-row">
+                    <span>Session</span><strong>45 min</strong>
+                </div>
+                <div class="preview-row">
+                    <span>Focus</span><strong>Full body</strong>
+                </div>
+            </div>
+            <div class="preview-note">
+                <span class="note-icon">✓</span>
+                <span>Built around your schedule and available equipment.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="how-it-works" class="section">
+    <div class="container">
+        <div class="section-heading">
+            <span class="eyebrow">How it works</span>
+            <h2>A simpler way to start with structure.</h2>
+            <p>Tell FitBuddy about yourself, let Gemini build the plan, then keep your plans organized in one place.</p>
+        </div>
+        <div class="steps-grid">
+            <article class="feature-card">
+                <span class="step-number">01</span>
+                <h3>Share your profile</h3>
+                <p>Set your goal, fitness level, schedule, location, equipment, and food preferences.</p>
+            </article>
+            <article class="feature-card">
+                <span class="step-number">02</span>
+                <h3>Generate your plan</h3>
+                <p>FitBuddy sends your profile securely to Gemini and requests a structured plan.</p>
+            </article>
+            <article class="feature-card">
+                <span class="step-number">03</span>
+                <h3>Train with clarity</h3>
+                <p>Review weekly workouts, exercises, recovery, nutrition guidance, and practical tips.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section-soft">
+    <div class="container split-section">
+        <div>
+            <span class="eyebrow">Personalized planning</span>
+            <h2>Designed around your real routine.</h2>
+            <p>
+                Your plan considers how often you can train, how long each session can be,
+                where you work out, what equipment you have, and what you want to achieve.
+            </p>
+        </div>
+        <div class="benefit-list">
+            <div><span>✓</span><strong>AI-generated workouts</strong><p>Structured sessions with warmups, exercises, sets, reps, rest, and cooldowns.</p></div>
+            <div><span>✓</span><strong>Nutrition guidance</strong><p>General meal ideas and practical habits aligned with your stated preference.</p></div>
+            <div><span>✓</span><strong>Plan history</strong><p>Keep previous plans available so you can review how your routines have changed.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container safety-banner">
+        <div>
+            <span class="eyebrow">A thoughtful starting point</span>
+            <h2>AI guidance should support—not replace—professional advice.</h2>
+            <p>
+                FitBuddy is for general informational fitness and nutrition guidance.
+                If you have a medical condition, injury, or other health concern, consult a qualified professional.
+            </p>
+        </div>
+        <a class="button button-primary" href="{{ url_for('auth.register') }}">Get started</a>
+    </div>
+</section>
+{% endblock %}

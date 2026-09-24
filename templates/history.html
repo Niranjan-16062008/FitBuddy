@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container page-header-inner">
+        <div>
+            <span class="eyebrow">Your plans</span>
+            <h1>Plan history</h1>
+            <p>Previously generated plans stay available in your account.</p>
+        </div>
+        <a class="button button-primary" href="{{ url_for('fitness.create_plan') }}">Create New Plan</a>
+    </div>
+</section>
+
+<section class="container history-content">
+    {% if plans %}
+        <div class="history-list">
+            {% for plan in plans %}
+                <a class="history-item" href="{{ url_for('fitness.view_plan', plan_id=plan.id) }}">
+                    <div>
+                        <span class="mini-label">{{ plan.goal|title }}</span>
+                        <h2>{{ plan.title }}</h2>
+                        <p>{{ plan.duration }}</p>
+                    </div>
+                    <time datetime="{{ plan.created_at.isoformat() }}">{{ plan.created_at.strftime('%d %b %Y') }}</time>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">F</span>
+            <h2>No plans yet.</h2>
+            <p>Generate your first personalized plan when you're ready.</p>
+            <a class="button button-primary" href="{{ url_for('fitness.create_plan') }}">Create a plan</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
